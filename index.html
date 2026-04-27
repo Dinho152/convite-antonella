@@ -24,11 +24,11 @@ body{
   color:white;
   font-weight:bold;
   font-size:16px;
-  z-index:999;
+  z-index:9999;
   text-shadow:0 0 10px black;
 }
 
-/* VIDEO (CORRIGIDO) */
+/* VIDEO FULL */
 video{
   position:fixed;
   top:0;
@@ -37,7 +37,13 @@ video{
   height:100vh;
   object-fit:cover;
   object-position:center;
-  z-index:-2;
+  z-index:-3;
+  animation:zoom 20s infinite alternate ease-in-out;
+}
+
+/* GARANTE QUE CARREGUE */
+video::-webkit-media-controls{
+  display:none !important;
 }
 
 /* OVERLAY */
@@ -45,8 +51,26 @@ video{
   position:fixed;
   width:100%;
   height:100%;
-  background:rgba(0,0,0,0.4);
+  background:linear-gradient(45deg,rgba(255,0,200,0.3),rgba(0,200,255,0.3));
+  mix-blend-mode:overlay;
+  z-index:-2;
+  animation:neon 3s infinite alternate;
+}
+
+/* LUZ SHOW */
+.luz{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:radial-gradient(circle,rgba(255,255,255,0.15),transparent);
+  animation:flash 1.5s infinite;
   z-index:-1;
+}
+
+@keyframes flash{
+  0%{opacity:0;}
+  50%{opacity:0.4;}
+  100%{opacity:0;}
 }
 
 /* TELA INICIAL */
@@ -58,9 +82,21 @@ video{
   display:flex;
   justify-content:center;
   align-items:center;
+  flex-direction:column;
   color:white;
   z-index:10;
   cursor:pointer;
+}
+
+.start h1{
+  font-size:28px;
+  animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.15);}
+  100%{transform:scale(1);}
 }
 
 /* CARD */
@@ -68,42 +104,73 @@ video{
   position:absolute;
   top:50%;
   left:50%;
-  transform:translate(-50%,-50%);
+  transform:translate(-50%,-50%) scale(0.8);
   width:320px;
-  padding:20px;
-  border-radius:20px;
+  padding:25px;
+  border-radius:25px;
   background:rgba(255,255,255,0.15);
-  backdrop-filter:blur(10px);
+  backdrop-filter:blur(15px);
   text-align:center;
   color:white;
+  opacity:0;
+  animation:cardIn 1s ease forwards;
+  animation-delay:1s;
+}
+
+@keyframes cardIn{
+  to{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+  }
+}
+
+.nome{
+  font-size:28px;
+  font-weight:800;
+  margin:10px 0;
+  text-shadow:0 0 15px #fff;
 }
 
 .foto{
-  width:100px;
+  width:110px;
+  height:110px;
   border-radius:50%;
+  object-fit:cover;
+  border:3px solid white;
+  box-shadow:0 0 20px #fff;
 }
 
+/* BOTÃO ANIMADO */
 .btn{
   margin-top:10px;
-  padding:10px;
-  border:none;
-  border-radius:20px;
-  background:#ff4ecd;
-  color:white;
+  padding:12px;
   width:100%;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(45deg,#ff4ecd,#00e0ff);
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 0 20px #ff4ecd;
+  transition:0.3s;
 }
 
-#form{display:none;}
+.btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 30px #00e0ff;
+}
 
+/* FORM */
+#form{display:none;}
 input{
   width:100%;
+  padding:10px;
   margin:5px 0;
-  padding:8px;
-  border-radius:10px;
+  border-radius:15px;
   border:none;
 }
 
-/* LINK MAPA */
+/* MAPA */
 .mapa{
   display:block;
   margin-top:8px;
@@ -111,18 +178,42 @@ input{
   text-decoration:none;
   font-weight:bold;
 }
+
+/* PARTÍCULAS */
+.particula{
+  position:fixed;
+  width:6px;
+  height:6px;
+  background:white;
+  border-radius:50%;
+  opacity:0.7;
+  animation:subir 6s linear infinite;
+}
+
+@keyframes subir{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
+}
+
+/* ZOOM */
+@keyframes zoom{
+  from{transform:scale(1);}
+  to{transform:scale(1.2);}
+}
 </style>
 </head>
 
 <body>
 
 <div class="contador" id="contador"></div>
+<div class="luz"></div>
 
 <div class="start" onclick="iniciar()">
   <h1>💖 Toque para começar 💖</h1>
 </div>
 
-<video id="bgVideo" loop muted playsinline autoplay>
+<!-- VIDEO -->
+<video id="bgVideo" autoplay muted loop playsinline>
   <source src="video.mp4" type="video/mp4">
 </video>
 
@@ -133,15 +224,13 @@ input{
 
   <img src="foto.jpg" class="foto">
 
-  <h2>💖 Antonella 3 anos 💖</h2>
+  <div class="nome">💖 Antonella 3 anos 💖</div>
 
   <p>✨💖 Prepare-se para uma festa incrível, você é nosso convidado especial!💖✨</p>
   <p>📅 19/07 às 16h</p>
 
   <p>📍 Espaço 487</p>
-
-  <!-- LINK MAPA -->
-  <a class="mapa" href="https://maps.app.goo.gl/fK5Zr7SYsgzfV4Y2A?g_st=ac" target="_blank">
+  <a class="mapa" href="https://maps.app.goo.gl/ik7G4xUHKMWzzBWr8" target="_blank">
     📍 Abrir no mapa
   </a>
 
@@ -188,7 +277,7 @@ Crianças: ${criancas}`;
   window.open(`https://wa.me/5524998432810?text=${encodeURIComponent(texto)}`);
 }
 
-// CONTADOR (CORRIGIDO)
+// CONTADOR
 let dataEvento = new Date("2026-07-19T16:00:00");
 
 setInterval(()=>{
@@ -207,6 +296,15 @@ setInterval(()=>{
   document.getElementById("contador").innerHTML =
     `Faltam ${dias}d ${horas}h ${minutos}min 🎉`;
 },1000);
+
+// PARTÍCULAS
+setInterval(()=>{
+  let p = document.createElement("div");
+  p.className="particula";
+  p.style.left=Math.random()*100+"%";
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),6000);
+},300);
 </script>
 
 </body>
