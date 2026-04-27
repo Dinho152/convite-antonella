@@ -1,0 +1,278 @@
+<!DOCTYPE html> 
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Antonella 3 anos</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:'Poppins',sans-serif;
+  overflow:hidden;
+}
+
+/* TELA INICIAL */
+.start{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:radial-gradient(circle,#ff4ecd,#7a5cff,#000);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  color:white;
+  z-index:10;
+  cursor:pointer;
+}
+
+.start h1{
+  font-size:28px;
+  animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.15);}
+  100%{transform:scale(1);}
+}
+
+/* VIDEO FULL MOBILE */
+video{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  object-fit:cover;
+  object-position:center;
+  z-index:-2;
+  animation:zoom 20s infinite alternate ease-in-out;
+}
+
+@keyframes zoom{
+  from{transform:scale(1);}
+  to{transform:scale(1.2);}
+}
+
+/* OVERLAY NEON */
+.overlay{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:linear-gradient(45deg,rgba(255,0,200,0.3),rgba(0,200,255,0.3));
+  mix-blend-mode:overlay;
+  z-index:-1;
+  animation:neon 3s infinite alternate;
+}
+
+@keyframes neon{
+  from{opacity:0.3;}
+  to{opacity:0.7;}
+}
+
+/* CARD */
+.card{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(0.8);
+  width:320px;
+  padding:25px;
+  border-radius:25px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(15px);
+  text-align:center;
+  color:white;
+  opacity:0;
+  animation:cardIn 1s ease forwards;
+  animation-delay:1s;
+}
+
+@keyframes cardIn{
+  to{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+  }
+}
+
+.nome{
+  font-size:28px;
+  font-weight:800;
+  margin:10px 0;
+  text-shadow:0 0 15px #fff;
+}
+
+.foto{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  object-fit:cover;
+  border:3px solid white;
+  box-shadow:0 0 20px #fff;
+}
+
+/* BOTÃO */
+.btn{
+  margin-top:10px;
+  padding:12px;
+  width:100%;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(45deg,#ff4ecd,#00e0ff);
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 0 20px #ff4ecd;
+  transition:0.3s;
+}
+
+.btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 30px #00e0ff;
+}
+
+/* FORM */
+#form{display:none;}
+input{
+  width:100%;
+  padding:10px;
+  margin:5px 0;
+  border-radius:15px;
+  border:none;
+}
+
+/* TEXTO */
+.mensagem{
+  position:fixed;
+  top:25%;
+  width:100%;
+  text-align:center;
+  color:white;
+  font-size:20px;
+  font-weight:600;
+  z-index:11;
+  text-shadow:0 0 10px black;
+}
+
+/* PARTÍCULAS */
+.particula{
+  position:fixed;
+  width:6px;
+  height:6px;
+  background:white;
+  border-radius:50%;
+  opacity:0.7;
+  animation:subir 6s linear infinite;
+}
+
+@keyframes subir{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="mensagem" id="mensagem"></div>
+
+<div class="start" onclick="iniciar()">
+  <h1>💖 Toque para começar 💖</h1>
+</div>
+
+<video id="bgVideo" loop playsinline>
+  <source src="video.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<div class="card">
+  <h3>🎉 Você foi convidado</h3>
+
+  <img src="foto.jpg" class="foto">
+
+  <div class="nome">Antonella 💖</div>
+
+  <p>Prepare-se para uma festa incrível cheia de música e diversão 💖✨</p>
+  <p>📅 14/07 às 16h</p>
+  <p>📍 Kifulia Festas</p>
+
+  <button class="btn" onclick="abrirForm()">Confirmar</button>
+
+  <div id="form">
+    <input id="nome" placeholder="Nome">
+    <input id="adultos" type="number" placeholder="Adultos">
+    <input id="criancas" type="number" placeholder="Crianças">
+    <button class="btn" onclick="enviar()">Enviar</button>
+  </div>
+</div>
+
+<script>
+// TEXTO DIGITANDO
+const texto = "Prepare-se para a festa mais incrível 💖✨";
+let i = 0;
+
+function digitar(){
+  if(i < texto.length){
+    document.getElementById("mensagem").innerHTML += texto.charAt(i);
+    i++;
+    setTimeout(digitar, 40);
+  } else {
+    setTimeout(()=>{
+      document.getElementById("mensagem").style.opacity="0";
+    },2000);
+  }
+}
+digitar();
+
+// INICIAR
+function iniciar(){
+  document.querySelector(".start").style.display="none";
+  let video = document.getElementById("bgVideo");
+  video.muted = false;
+  video.play();
+}
+
+// FORM
+function abrirForm(){
+  document.getElementById("form").style.display="block";
+}
+
+// ENVIAR (CORRIGIDO)
+function enviar(){
+  let nome = document.getElementById("nome").value;
+  let adultos = document.getElementById("adultos").value || 0;
+  let criancas = document.getElementById("criancas").value || 0;
+
+  if(!nome){
+    alert("Digite seu nome!");
+    return;
+  }
+
+  let texto = `Confirmado! 🎉
+Nome: ${nome}
+Adultos: ${adultos}
+Crianças: ${criancas}`;
+
+  let url = `https://wa.me/5524998432810?text=${encodeURIComponent(texto)}`;
+
+  window.open(url, "_blank");
+}
+
+// PARTÍCULAS
+setInterval(()=>{
+  let p = document.createElement("div");
+  p.className="particula";
+  p.style.left=Math.random()*100+"%";
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),6000);
+},300);
+</script>
+
+</body>
+</html>
