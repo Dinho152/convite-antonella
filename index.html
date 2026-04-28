@@ -240,6 +240,7 @@ input{
     <input id="nome" placeholder="Nome">
     <input id="adultos" type="number" placeholder="Adultos">
     <input id="criancas" type="number" placeholder="Crianças">
+    <input id="adolescentes" type="number" placeholder="Adolescentes">
     <button class="btn" onclick="enviar()">Enviar</button>
   </div>
 </div>
@@ -263,6 +264,7 @@ function enviar(){
   let nome = document.getElementById("nome").value;
   let adultos = document.getElementById("adultos").value || 0;
   let criancas = document.getElementById("criancas").value || 0;
+  let adolescentes = document.getElementById("adolescente s").value || 0;
 
   if(!nome){
     alert("Digite seu nome!");
@@ -272,7 +274,8 @@ function enviar(){
   let texto = `Confirmado! 🎉
 Nome: ${nome}
 Adultos: ${adultos}
-Crianças: ${criancas}`;
+Crianças: ${criancas};
+Adolescentes: ${adolescentes}';
 
   window.open(`https://wa.me/5524998432810?text=${encodeURIComponent(texto)}`);
 }
