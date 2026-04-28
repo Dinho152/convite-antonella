@@ -28,7 +28,7 @@ body{
   text-shadow:0 0 10px black;
 }
 
-/* VIDEO FULL */
+/* VIDEO */
 video{
   position:fixed;
   top:0;
@@ -39,11 +39,6 @@ video{
   object-position:center;
   z-index:-3;
   animation:zoom 20s infinite alternate ease-in-out;
-}
-
-/* GARANTE QUE CARREGUE */
-video::-webkit-media-controls{
-  display:none !important;
 }
 
 /* OVERLAY */
@@ -57,7 +52,7 @@ video::-webkit-media-controls{
   animation:neon 3s infinite alternate;
 }
 
-/* LUZ SHOW */
+/* LUZ */
 .luz{
   position:fixed;
   width:100%;
@@ -73,6 +68,16 @@ video::-webkit-media-controls{
   100%{opacity:0;}
 }
 
+@keyframes neon{
+  from{opacity:0.3;}
+  to{opacity:0.7;}
+}
+
+@keyframes zoom{
+  from{transform:scale(1);}
+  to{transform:scale(1.2);}
+}
+
 /* TELA INICIAL */
 .start{
   position:fixed;
@@ -82,14 +87,12 @@ video::-webkit-media-controls{
   display:flex;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
   color:white;
   z-index:10;
   cursor:pointer;
 }
 
 .start h1{
-  font-size:28px;
   animation:pulse 1.2s infinite;
 }
 
@@ -104,7 +107,7 @@ video::-webkit-media-controls{
   position:absolute;
   top:50%;
   left:50%;
-  transform:translate(-50%,-50%) scale(0.8);
+  transform:translate(-50%,-50%);
   width:320px;
   padding:25px;
   border-radius:25px;
@@ -112,35 +115,16 @@ video::-webkit-media-controls{
   backdrop-filter:blur(15px);
   text-align:center;
   color:white;
-  opacity:0;
-  animation:cardIn 1s ease forwards;
-  animation-delay:1s;
-}
-
-@keyframes cardIn{
-  to{
-    opacity:1;
-    transform:translate(-50%,-50%) scale(1);
-  }
-}
-
-.nome{
-  font-size:28px;
-  font-weight:800;
-  margin:10px 0;
-  text-shadow:0 0 15px #fff;
 }
 
 .foto{
   width:110px;
-  height:110px;
   border-radius:50%;
-  object-fit:cover;
   border:3px solid white;
   box-shadow:0 0 20px #fff;
 }
 
-/* BOTÃO ANIMADO */
+/* BOTÃO */
 .btn{
   margin-top:10px;
   padding:12px;
@@ -152,16 +136,11 @@ video::-webkit-media-controls{
   font-weight:bold;
   cursor:pointer;
   box-shadow:0 0 20px #ff4ecd;
-  transition:0.3s;
-}
-
-.btn:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 30px #00e0ff;
 }
 
 /* FORM */
 #form{display:none;}
+
 input{
   width:100%;
   padding:10px;
@@ -186,19 +165,12 @@ input{
   height:6px;
   background:white;
   border-radius:50%;
-  opacity:0.7;
   animation:subir 6s linear infinite;
 }
 
 @keyframes subir{
   from{transform:translateY(100vh);}
   to{transform:translateY(-10vh);}
-}
-
-/* ZOOM */
-@keyframes zoom{
-  from{transform:scale(1);}
-  to{transform:scale(1.2);}
 }
 </style>
 </head>
@@ -212,7 +184,6 @@ input{
   <h1>💖 Toque para começar 💖</h1>
 </div>
 
-<!-- VIDEO -->
 <video id="bgVideo" autoplay muted loop playsinline>
   <source src="video.mp4" type="video/mp4">
 </video>
@@ -224,9 +195,9 @@ input{
 
   <img src="foto.jpg" class="foto">
 
-  <div class="nome">💖 Antonella 3 anos 💖</div>
+  <h2>💖 Antonella 3 anos 💖</h2>
 
-  <p>✨💖 Prepare-se para uma festa incrível, você é nosso convidado especial!💖✨</p>
+  <p>✨ Festa incrível te espera ✨</p>
   <p>📅 19/07 às 16h</p>
 
   <p>📍 Espaço 487</p>
@@ -261,7 +232,7 @@ function abrirForm(){
 
 // WHATSAPP
 function enviar(){
-  let nome = document.getElementById("nome").value;
+  let nome = document.getElementById("nome").value.trim();
   let adultos = document.getElementById("adultos").value || 0;
   let criancas = document.getElementById("criancas").value || 0;
   let adolescentes = document.getElementById("adolescentes").value || 0;
@@ -271,13 +242,14 @@ function enviar(){
     return;
   }
 
-  let texto = `Confirmado! 🎉
-Nome: ${nome}
-Adultos: ${adultos}
-Crianças: ${criancas};
-Adolescentes: ${adolescentes}`;
+  let texto =
+  "Confirmado! 🎉%0A" +
+  "Nome: " + nome + "%0A" +
+  "Adultos: " + adultos + "%0A" +
+  "Crianças: " + criancas + "%0A" +
+  "Adolescentes: " + adolescentes;
 
-  window.open(`https://wa.me/5524998432810?text=${encodeURIComponent(texto)}`);
+  window.location.href = "https://wa.me/5524998432810?text=" + texto;
 }
 
 // CONTADOR
